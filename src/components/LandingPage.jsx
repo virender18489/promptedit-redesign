@@ -1,26 +1,21 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { Sparkles, Play, ChevronRight, Zap, Layers, Cpu, Star, CheckCircle } from 'lucide-react';
-
-// --- Shared Animation Variants ---
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
-};
-
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Play, Video, Zap, Image as ImageIcon, ArrowRight, Twitter, Linkedin, Facebook, Layout, Code, Layers, Workflow, Palette } from 'lucide-react';
 export default function LandingPage() {
   return (
-    <div className="bg-[#030014] min-h-screen text-white font-sans overflow-x-hidden">
+    <div className="font-sans overflow-x-hidden bg-white text-gray-800 selection:bg-yellow-400/30">
       <Navbar />
       <HeroSection />
-      <TrustedBy />
-      <FeaturesBento />
-      <WorkflowShowcase />
-      <TemplatesGallery />
-      <Statistics />
-      <Testimonials />
-      <PricingPreview />
-      <FinalCTA />
+      <ServicesSection />
+      <DarkFeaturesSection />
+      <HowItWorksSection />
+      <VideoFirstSection />
+      <ProjectsSection />
+      <StatsSection />
+      <TeamSection />
+      <PricingSection />
+      <FAQSection />
+      <BlogSection />
       <Footer />
     </div>
   );
@@ -28,261 +23,682 @@ export default function LandingPage() {
 
 function Navbar() {
   return (
-    <motion.nav 
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 bg-[#030014]/50 backdrop-blur-md border-b border-white/5"
-    >
-      <div className="text-2xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60">
-        PromptEdit<span className="text-cyan-500">.</span>
+    <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
+      <div className="text-2xl font-black tracking-tighter text-white">
+        PromptEdit<span className="text-yellow-400">.</span>
       </div>
-      <div className="hidden md:flex gap-8 text-sm font-medium text-white/70">
-        <a href="#features" className="hover:text-white transition-colors">Features</a>
-        <a href="#workflow" className="hover:text-white transition-colors">Workflow</a>
-        <a href="#templates" className="hover:text-white transition-colors">Templates</a>
-        <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
+
+      {/* Centered Navigation Links */}
+      <div className="hidden lg:flex gap-8 text-sm font-medium text-white/90">
+        <a href="#" className="hover:text-yellow-400 transition-colors">HOME</a>
+        <a href="#" className="hover:text-yellow-400 transition-colors">AI FEATURES</a>
+        <a href="#" className="hover:text-yellow-400 transition-colors">CREATOR COURSE</a>
+        <a href="#" className="hover:text-yellow-400 transition-colors">PRICING</a>
+        <a href="#" className="hover:text-yellow-400 transition-colors">TUTORIALS</a>
       </div>
-      <button className="px-5 py-2 text-sm font-semibold rounded-full bg-white text-black hover:scale-105 transition-transform">
-        Get Started
-      </button>
-    </motion.nav>
+
+      {/* Right Side Auth Buttons (Replaced Menu Icon) */}
+      <div className="flex items-center gap-4 md:gap-6">
+        <a href="#" className="text-sm font-bold text-white hover:text-yellow-400 transition-colors hidden sm:block">
+          Sign In
+        </a>
+        <button className="px-6 py-2.5 rounded-full bg-yellow-400 text-indigo-900 font-bold text-sm hover:bg-yellow-300 transition-all shadow-[0_0_15px_rgba(250,204,21,0.3)] hover:scale-105">
+          Sign Up
+        </button>
+      </div>
+    </nav>
   );
 }
 
+// ==========================================
+// REVISED HERO SECTION WITH NEW CONTENT
+// ==========================================
 function HeroSection() {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "40%"]);
-  const opacity = useTransform(scrollYProgress, [0, 1], [1, 0]);
-
   return (
-    <section ref={ref} className="relative min-h-screen flex flex-col items-center justify-center pt-32 pb-48 overflow-hidden px-4">
-      {/* Cinematic Ambient Glows */}
-      <div className="absolute top-1/4 left-1/4 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-purple-600/20 rounded-full blur-[130px] mix-blend-screen pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] md:w-[700px] h-[400px] md:h-[700px] bg-cyan-600/15 rounded-full blur-[160px] mix-blend-screen pointer-events-none" />
-      
-      <motion.div style={{ y, opacity }} className="relative z-10 text-center max-w-5xl mx-auto flex flex-col items-center">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8"
-        >
-          <Sparkles className="w-4 h-4 text-cyan-400" />
-          <span className="text-sm font-medium text-white/80">PromptEdit 2.0 is now live</span>
-        </motion.div>
-        
-        <motion.h1 
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          className="text-5xl md:text-8xl font-extrabold tracking-tighter leading-[1.1] mb-6"
-        >
-          The Ultimate <br/>
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600">
-            AI Creative Engine
-          </span>
-        </motion.h1>
-        
-        <motion.p 
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.2 }}
-          className="text-base md:text-2xl text-white/60 max-w-2xl mx-auto mb-10 leading-relaxed"
-        >
-          Generate, edit, and master cinematic visuals faster than ever. Built for creators who demand Apple-level polish and Silicon Valley power.
-        </motion.p>
-        
-        <motion.div 
-          variants={fadeUp}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto"
-        >
-          <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white text-black font-semibold text-lg hover:bg-gray-100 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-white/10">
-            Start Creating Free
-            <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
-          <button className="w-full sm:w-auto px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-semibold text-lg hover:bg-white/10 backdrop-blur-md transition-colors flex items-center justify-center gap-2">
-            <Play className="w-5 h-5 fill-current text-white/80" />
-            Watch Showreel
-          </button>
-        </motion.div>
-      </motion.div>
+    <section className="relative pt-40 pb-64 lg:pb-80 bg-gradient-to-b from-[#1a0b2e] via-[#2d1b64] to-[#4b3b8c] overflow-hidden">
+      {/* Stars/Planets Background Animations */}
+      <motion.div animate={{ y: [0, -20, 0] }} transition={{ duration: 5, repeat: Infinity }} className="absolute top-32 left-[10%] w-4 h-4 bg-yellow-300 rounded-full blur-[2px]" />
+      <motion.div animate={{ y: [0, 20, 0] }} transition={{ duration: 7, repeat: Infinity }} className="absolute top-64 left-[40%] w-8 h-8 bg-pink-400 rounded-full blur-[4px]" />
+      <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 4, repeat: Infinity }} className="absolute top-40 right-[20%] w-3 h-3 bg-white rounded-full blur-[1px]" />
 
-      {/* Glassmorphic Project Mockup Preview */}
-      <motion.div 
-        initial={{ y: 200, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 1.4, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="absolute bottom-[-15%] left-1/2 -translate-x-1/2 w-[92%] max-w-[1200px] h-[400px] md:h-[550px] bg-[#0a0a14]/80 border border-white/10 rounded-t-[32px] md:rounded-t-[40px] shadow-[0_-20px_80px_-20px_rgba(120,0,255,0.25)] backdrop-blur-xl pointer-events-none"
-      >
-        <div className="w-full h-12 border-b border-white/10 flex items-center px-6 gap-2">
-          <div className="w-3 h-3 rounded-full bg-red-500/40" />
-          <div className="w-3 h-3 rounded-full bg-yellow-500/40" />
-          <div className="w-3 h-3 rounded-full bg-green-500/40" />
-          <div className="mx-auto text-xs text-white/30 font-mono tracking-widest">PROMPTEDIT_CORE_INTERFACE</div>
-        </div>
-        <div className="p-6 h-full flex flex-col gap-4">
-          <div className="w-full h-1/2 rounded-2xl bg-gradient-to-br from-white/5 to-transparent border border-white/5 flex items-center justify-center">
-            <Sparkles className="w-8 h-8 text-white/10 animate-pulse" />
-          </div>
-          <div className="flex gap-4 h-1/4">
-            <div className="w-1/4 h-full rounded-xl bg-white/5 border border-white/5" />
-            <div className="w-2/4 h-full rounded-xl bg-gradient-to-r from-purple-500/10 to-cyan-500/10 border border-white/5" />
-            <div className="w-1/4 h-full rounded-xl bg-white/5 border border-white/5" />
-          </div>
-        </div>
-      </motion.div>
-    </section>
-  );
-}
+      <div className="max-w-7xl mx-auto px-8 flex flex-col lg:flex-row items-center relative z-10">
 
-function TrustedBy() {
-  const logos = ["NETFLIX", "DISNEY", "HBO", "HULU", "AMAZON", "APPLE", "PARAMOUNT", "WARNER BROS"];
-  return (
-    <section className="py-16 border-y border-white/5 bg-[#030014]/40 relative z-20">
-      <div className="text-center text-xs font-semibold text-white/30 mb-8 uppercase tracking-[0.2em]">
-        Trusted by world-class creative groups
-      </div>
-      <div className="flex overflow-hidden select-none">
-        <motion.div 
-          animate={{ x: [0, -1200] }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 25 }}
-          className="flex whitespace-nowrap gap-20 px-10 items-center"
-        >
-          {[...logos, ...logos].map((logo, i) => (
-            <span key={i} className="text-xl md:text-2xl font-black text-white/15 tracking-widest">
-              {logo}
-            </span>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function FeaturesBento() {
-  return (
-    <section id="features" className="py-32 px-4 max-w-7xl mx-auto relative z-20">
-      <motion.div 
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, margin: "-100px" }}
-        variants={fadeUp}
-        className="text-center mb-20"
-      >
-        <h2 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight">The Unfair Advantage.</h2>
-        <p className="text-white/50 text-base md:text-xl max-w-2xl mx-auto">Everything you need to produce top-tier content, housed in a seamlessly intelligent interface.</p>
-      </motion.div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[280px]">
-        {/* Card 1 */}
-        <motion.div 
-          whileHover={{ y: -6 }}
-          className="md:col-span-2 p-8 rounded-[32px] bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-xl relative overflow-hidden group transition-all duration-300"
-        >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/10 blur-[80px] group-hover:bg-purple-500/20 transition-colors pointer-events-none" />
-          <Zap className="w-10 h-10 text-purple-400 mb-6" />
-          <h3 className="text-2xl font-bold mb-2">Real-Time AI Rendering</h3>
-          <p className="text-white/60 leading-relaxed max-w-xl">Generate 4K assets on the fly. No progress bars, just instant creative iteration powered by custom edge neural networks.</p>
-        </motion.div>
-
-        {/* Card 2 */}
-        <motion.div 
-          whileHover={{ y: -6 }}
-          className="p-8 rounded-[32px] bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-xl relative overflow-hidden group transition-all duration-300"
-        >
-          <div className="absolute top-0 right-0 w-32 h-32 bg-cyan-500/10 blur-[60px] group-hover:bg-cyan-500/20 transition-colors pointer-events-none" />
-          <Layers className="w-10 h-10 text-cyan-400 mb-6" />
-          <h3 className="text-2xl font-bold mb-2">Infinite Assets</h3>
-          <p className="text-white/60 leading-relaxed">Access a limitless ecosystem of generated custom stock, immersive audio tracks, and advanced visual effects.</p>
-        </motion.div>
-
-        {/* Card 3 */}
-        <motion.div 
-          whileHover={{ y: -6 }}
-          className="p-8 rounded-[32px] bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-xl relative overflow-hidden group transition-all duration-300"
-        >
-          <div className="absolute bottom-0 left-0 w-32 h-32 bg-blue-500/10 blur-[60px] group-hover:bg-blue-500/20 transition-colors pointer-events-none" />
-          <Cpu className="w-10 h-10 text-blue-400 mb-6" />
-          <h3 className="text-2xl font-bold mb-2">Smart Sequencing</h3>
-          <p className="text-white/60 leading-relaxed">AI automatically tracks and syncs your dramatic cuts and visual transformations directly to the audio beat structure.</p>
-        </motion.div>
-
-        {/* Card 4 */}
-        <motion.div 
-          whileHover={{ y: -6 }}
-          className="md:col-span-2 p-8 rounded-[32px] bg-gradient-to-br from-white/5 to-transparent border border-white/10 backdrop-blur-xl relative overflow-hidden group flex items-end transition-all duration-300"
-        >
-           <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center opacity-[0.08] mix-blend-overlay group-hover:opacity-15 transition-opacity" />
-           <div className="relative z-10 max-w-xl">
-            <h3 className="text-3xl font-bold mb-2">Prompt to Multi-Track Production</h3>
-            <p className="text-white/60 leading-relaxed">Type a description, and watch our engine build out an entire multi-track timeline complete with automated color grading nodes and matching sound design presets.</p>
-           </div>
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function WorkflowShowcase() {
-  return (
-    <section id="workflow" className="py-32 relative z-20 overflow-hidden bg-gradient-to-b from-transparent via-[#05021a] to-transparent">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="space-y-8"
+        {/* Left Content */}
+        <div className="w-full lg:w-1/2 text-white">
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }}
+            className="text-5xl lg:text-7xl font-bold leading-tight mb-6"
           >
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight tracking-tight">
-              A cinematic workflow <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white/80 via-white/50 to-white/30">designed to keep you in flow.</span>
-            </h2>
-            <div className="space-y-6">
-              {[
-                { step: "01", title: "Ideate & Prompt", desc: "Start with raw concepts, technical descriptions, or upload a spatial reference layout." },
-                { step: "02", title: "Real-Time Generation", desc: "Review dozens of high-fidelity variations instantly arranged via dynamic style tags." },
-                { step: "03", title: "Refine & Master", desc: "Use the advanced nodular timeline to tweak color profiles, framing, and layer parameters." }
-              ].map((item, i) => (
-                <div key={i} className="flex gap-6 group cursor-pointer border-l-2 border-white/5 hover:border-cyan-500/40 pl-6 transition-all duration-300">
-                  <div className="text-xl font-mono text-cyan-500/40 group-hover:text-cyan-400 transition-colors">{item.step}</div>
-                  <div>
-                    <h4 className="text-xl font-semibold mb-1 group-hover:text-cyan-300 transition-colors">{item.title}</h4>
-                    <p className="text-white/50 text-sm md:text-base leading-relaxed">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
+            Create any video <br className="hidden md:block" />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-pink-400">you can imagine.</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            className="text-white/70 text-lg md:text-xl mb-8 max-w-xl leading-relaxed"
+          >
+            Time-saving templates and pay-per-use AI tools.No subscription required.
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
+            className="flex flex-col sm:flex-row items-start sm:items-center gap-4"
+          >
+            <button className="px-8 py-4 bg-yellow-400 text-indigo-900 font-bold rounded-full hover:bg-yellow-300 transition-all shadow-[0_0_30px_rgba(250,204,21,0.3)] hover:scale-105">
+              Create with Templates
+            </button>
+            <button className="px-8 py-4 bg-yellow-400 text-indigo-900 font-bold rounded-full hover:bg-yellow-300 transition-all shadow-[0_0_30px_rgba(250,204,21,0.3)] hover:scale-105">
+              Create with AI
+            </button>
+          </motion.div>
+        </div>
+
+        {/* Right Illustration */}
+        <div className="w-full lg:w-1/2 mt-16 lg:mt-0 relative">
+          <motion.div
+            animate={{ y: [-10, 10, -10] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="relative w-full aspect-square max-w-[500px] mx-auto flex items-center justify-center"
+          >
+            <div className="absolute w-[70%] h-[70%] bg-gradient-to-br from-yellow-300 to-orange-500 rounded-full shadow-[inset_-20px_-20px_60px_rgba(0,0,0,0.2)]">
+              <div className="absolute top-[20%] left-[30%] w-12 h-12 bg-black/10 rounded-full" />
+              <div className="absolute bottom-[30%] right-[20%] w-16 h-16 bg-black/10 rounded-full" />
+            </div>
+            {/* Decorative UI Elements to match the "Drag and Drop Blocks" theme */}
+            <div className="absolute top-[10%] w-40 h-56 bg-indigo-500 rounded-3xl -rotate-12 border-4 border-indigo-900 shadow-2xl flex items-center justify-center overflow-hidden">
+              <div className="absolute top-0 w-full h-6 bg-indigo-900 flex items-center px-2 gap-1">
+                <div className="w-2 h-2 rounded-full bg-red-400"></div>
+                <div className="w-2 h-2 rounded-full bg-yellow-400"></div>
+                <div className="w-2 h-2 rounded-full bg-green-400"></div>
+              </div>
+              <div className="w-24 h-32 bg-white/20 rounded-xl mt-4"></div>
+            </div>
+
+            <div className="absolute top-[40%] right-[5%] w-48 h-32 bg-pink-500 rounded-2xl rotate-6 border-4 border-pink-900 shadow-2xl flex flex-col justify-end p-4">
+              <div className="w-full h-3 bg-white/30 rounded-full mb-3"></div>
+              <div className="w-2/3 h-3 bg-white/30 rounded-full"></div>
             </div>
           </motion.div>
-          
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
+        </div>
+      </div>
+
+      <div className="absolute bottom-0 w-full overflow-hidden leading-none z-0 translate-y-1">
+        <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#bae6fd" fillOpacity="1" d="M0,160L48,165.3C96,171,192,181,288,165.3C384,149,480,107,576,101.3C672,96,768,128,864,154.7C960,181,1056,203,1152,186.7C1248,171,1344,117,1392,90.7L1440,64L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path>
+        </svg>
+      </div>
+    </section>
+  );
+}
+
+function ServicesSection() {
+  const services = [
+    { icon: <Video className="w-10 h-10 text-blue-500" />, title: "Cinematic AI Transitions", desc: "Instantly apply Day to Night Hyperlapse, Phone Zoom Through, and Room Grow effects using start & end frame techniques." },
+    { icon: <ImageIcon className="w-10 h-10 text-pink-500" />, title: "AI Thumbnails", desc: "Use our Triple Threat Formula GPT to generate high-converting YouTube thumbnails in under 3 minutes without subscriptions." },
+    { icon: <Zap className="w-10 h-10 text-emerald-500" />, title: "AI Character Integration", desc: "Add, animate, and mask AI characters directly into real footage with automatic color adjustments." }
+  ];
+
+  return (
+    <section className="relative bg-sky-200 pt-10 pb-32">
+      <div className="max-w-7xl mx-auto px-8 relative z-10 text-center">
+        <p className="text-indigo-900/60 font-bold tracking-widest text-sm uppercase mb-2">Master AI Filmmaking</p>
+        <h2 className="text-3xl md:text-4xl font-bold text-indigo-950 mb-16 max-w-2xl mx-auto">
+          We replace complex timelines with simple prompts to make your content stand out
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {services.map((srv, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -10 }}
+              className="bg-white rounded-3xl p-10 shadow-xl shadow-sky-900/10 flex flex-col items-center text-center transition-all"
+            >
+              <div className="w-20 h-20 rounded-2xl bg-slate-50 flex items-center justify-center mb-6">
+                {srv.icon}
+              </div>
+              <h3 className="text-xl font-bold text-indigo-950 mb-4">{srv.title}</h3>
+              <p className="text-gray-500 leading-relaxed">{srv.desc}</p>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+// ==========================================
+// NEW SECTION: PREMIUM DARK FEATURES GRID
+// ==========================================
+function DarkFeaturesSection() {
+  const features = [
+    {
+      icon: <Zap className="w-6 h-6 text-purple-400" />,
+      iconBg: "bg-purple-500/10 border-purple-500/20",
+      title: "Dynamic interactions",
+      desc: "Create engaging user experiences with built-in animation presets and scroll triggers.",
+      link: "Explore interactions",
+      linkColor: "text-purple-400 hover:text-purple-300"
+    },
+    {
+      icon: <Layout className="w-6 h-6 text-blue-400" />,
+      iconBg: "bg-blue-500/10 border-blue-500/20",
+      title: "Built-in templates",
+      desc: "Start faster with our library of production-ready, highly customizable templates.",
+      link: "Explore templates",
+      linkColor: "text-blue-400 hover:text-blue-300"
+    },
+    {
+      icon: <Code className="w-6 h-6 text-emerald-400" />,
+      iconBg: "bg-emerald-500/10 border-emerald-500/20",
+      title: "Developer-friendly API",
+      desc: "Extend functionality with our robust, well-documented REST and GraphQL APIs.",
+      link: "Explore API",
+      linkColor: "text-emerald-400 hover:text-emerald-300"
+    },
+    {
+      icon: <Layers className="w-6 h-6 text-orange-400" />,
+      iconBg: "bg-orange-500/10 border-orange-500/20",
+      title: "Seamless integrations",
+      desc: "Connect your favorite tools and automate your workflow without writing code.",
+      link: "Explore integrations",
+      linkColor: "text-orange-400 hover:text-orange-300"
+    },
+    {
+      icon: <Workflow className="w-6 h-6 text-indigo-400" />,
+      iconBg: "bg-indigo-500/10 border-indigo-500/20",
+      title: "Intelligent workflows",
+      desc: "Automate repetitive tasks and let our AI engine handle the heavy lifting for you.",
+      link: "Explore workflows",
+      linkColor: "text-indigo-400 hover:text-indigo-300"
+    },
+    {
+      icon: <Palette className="w-6 h-6 text-cyan-400" />,
+      iconBg: "bg-cyan-500/10 border-cyan-500/20",
+      title: "Customizable themes",
+      desc: "Match your brand perfectly with advanced theme customization and global variables.",
+      link: "Explore themes",
+      linkColor: "text-cyan-400 hover:text-cyan-300"
+    }
+  ];
+
+  return (
+    <section className="py-32 bg-[#050505] relative overflow-hidden">
+      {/* Subtle Premium Grid Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+
+        {/* Header */}
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-white/5 text-gray-300 font-bold text-xs uppercase tracking-widest mb-6 border border-white/10"
+          >
+            Powerful Features
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight">
+            Everything you need to <br className="hidden md:block" /> build faster.
+          </h2>
+          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+            A complete suite of tools designed to help you create, manage, and scale your digital experiences with unprecedented speed.
+          </p>
+        </div>
+
+        {/* 3-Column Card Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((item, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              whileHover={{ y: -8 }}
+              className="bg-[#0a0a0f] border border-white/10 hover:border-white/20 rounded-[24px] p-8 flex flex-col transition-all duration-300 group shadow-2xl shadow-black/50"
+            >
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-8 border ${item.iconBg} shadow-inner`}>
+                {item.icon}
+              </div>
+              <h3 className="text-xl font-bold text-white mb-3">{item.title}</h3>
+              <p className="text-gray-400 text-sm leading-relaxed mb-8 flex-1">
+                {item.desc}
+              </p>
+
+              {/* Animated Link Bottom */}
+              <a href="#" className={`inline-flex items-center gap-2 font-bold text-sm ${item.linkColor} group-hover:gap-3 transition-all duration-300 mt-auto`}>
+                {item.link} <ArrowRight className="w-4 h-4" />
+              </a>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ==========================================
+// NEW SECTION: HOW IT WORKS (From your screenshot)
+// ==========================================
+function HowItWorksSection() {
+  return (
+    <section className="py-32 bg-gray-50 relative overflow-hidden border-t border-gray-100">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-20 left-0 w-72 h-72 bg-pink-400/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-20 right-0 w-96 h-96 bg-indigo-400/10 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+
+        {/* Section Header */}
+        <div className="text-center mb-24">
+
+          <h2 className="text-4xl md:text-5xl font-black text-indigo-950 tracking-tight">
+            Common questions
+          </h2>
+        </div>
+
+        {/* 3-Column Layout: Left Steps, Center Image, Right Steps */}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-8 items-center">
+
+          {/* Left Column (Steps 1 & 2) */}
+          <div className="flex flex-col gap-12 lg:col-span-1 order-2 lg:order-1">
+
+            {/* Step 1 */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative group cursor-pointer"
+            >
+              {/* Large faded background number */}
+              <div className="absolute -top-8 -left-4 text-7xl font-black text-gray-200 group-hover:text-pink-100 transition-colors duration-300 z-0 select-none">
+                01
+              </div>
+              <div className="relative z-10 pl-2">
+                <div className="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center mb-4 shadow-sm">
+                  <span className="text-pink-600 font-black">1</span>
+                </div>
+                <h3 className="text-xl font-bold text-indigo-950 mb-3 group-hover:text-pink-600 transition-colors">What is PromptEdit?</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Start by selecting a base layout and customize it to match your brand's unique vision and style.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Step 2 */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="relative group cursor-pointer"
+            >
+              <div className="absolute -top-8 -left-4 text-7xl font-black text-gray-200 group-hover:text-yellow-100 transition-colors duration-300 z-0 select-none">
+                02
+              </div>
+              <div className="relative z-10 pl-2">
+                <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mb-4 shadow-sm">
+                  <span className="text-yellow-600 font-black">2</span>
+                </div>
+                <h3 className="text-xl font-bold text-indigo-950 mb-3 group-hover:text-yellow-600 transition-colors">Can I use generated content for commercial projects?</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Easily position elements, images, and text blocks on the canvas without writing a single line of code.
+                </p>
+              </div>
+            </motion.div>
+
+          </div>
+
+          {/* Center Column (Dashboard Mockup) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="relative h-[450px] md:h-[520px] rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-sm p-4 overflow-hidden shadow-2xl"
+            whileHover={{ y: -10 }}
+            className="lg:col-span-2 order-1 lg:order-2 relative z-20 group"
           >
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#030014]/90 z-10 pointer-events-none" />
-            <div className="w-full h-full rounded-[24px] bg-[#070512] border border-white/5 p-6 flex flex-col gap-4">
-               <div className="w-full h-40 bg-gradient-to-tr from-purple-500/10 via-blue-500/5 to-transparent rounded-xl flex items-center justify-center border border-white/5">
-                  <div className="text-xs font-mono text-white/20 animate-pulse">PROCESSING AUDIO BEAT COMPLIANCE...</div>
-               </div>
-               <div className="flex gap-3">
-                 <div className="w-1/3 h-20 bg-white/5 rounded-xl border border-white/5" />
-                 <div className="w-1/3 h-20 bg-white/5 rounded-xl border border-white/5" />
-                 <div className="w-1/3 h-20 bg-white/5 rounded-xl border border-white/5" />
-               </div>
-               <div className="w-full h-10 bg-cyan-500/10 rounded-xl mt-auto flex items-center px-4 justify-between border border-cyan-500/20">
-                 <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                 <div className="text-xs font-mono text-cyan-400">TIMELINE ACTIVE • 24.00 FPS</div>
-               </div>
+            {/* Glowing Background Behind Image */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500 rounded-[40px] transform rotate-3 scale-105 opacity-20 group-hover:rotate-6 group-hover:scale-110 transition-all duration-500" />
+
+            {/* Main Image Card */}
+            <div className="bg-white p-3 md:p-5 rounded-[40px] shadow-2xl relative z-10 border border-gray-100">
+              <div className="rounded-[24px] overflow-hidden bg-gray-100">
+                {/* Aap yahan dashboard ya interface ki image daal sakte hain */}
+                <img
+                  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop"
+                  alt="Interface Mockup"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+
+            {/* Floating Element (Like in your screenshot) */}
+            <motion.div
+              animate={{ y: [-10, 10, -10] }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -bottom-8 -right-8 bg-white p-4 rounded-2xl shadow-xl border border-gray-100 z-30 hidden md:block"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                  <Zap className="w-5 h-5 text-green-600" />
+                </div>
+                <div>
+                  <div className="text-xs text-gray-400 font-bold uppercase">Status</div>
+                  <div className="text-sm font-black text-indigo-950">Published Live</div>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Right Column (Steps 3 & 4) */}
+          <div className="flex flex-col gap-12 lg:col-span-1 order-3 lg:order-3">
+
+            {/* Step 3 */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative group cursor-pointer"
+            >
+              <div className="absolute -top-8 -left-4 text-7xl font-black text-gray-200 group-hover:text-indigo-100 transition-colors duration-300 z-0 select-none">
+                03
+              </div>
+              <div className="relative z-10 pl-2">
+                <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center mb-4 shadow-sm">
+                  <span className="text-indigo-600 font-black">3</span>
+                </div>
+                <h3 className="text-xl font-bold text-indigo-950 mb-3 group-hover:text-indigo-600 transition-colors">What models are available?</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Apply global colors, beautiful typography, and modern themes with just one simple click.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Step 4 */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="relative group cursor-pointer"
+            >
+              <div className="absolute -top-8 -left-4 text-7xl font-black text-gray-200 group-hover:text-green-100 transition-colors duration-300 z-0 select-none">
+                04
+              </div>
+              <div className="relative z-10 pl-2">
+                <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mb-4 shadow-sm">
+                  <span className="text-green-600 font-black">4</span>
+                </div>
+                <h3 className="text-xl font-bold text-indigo-950 mb-3 group-hover:text-green-600 transition-colors">Is there a free trial?</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">
+                  Export your project or host it directly on our blazing fast global CDN servers instantly.
+                </p>
+              </div>
+            </motion.div>
+
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ==========================================
+// NEW ULTRA-CREATIVE SECTION: A VIDEO FIRST APPROACH
+// ==========================================
+function VideoFirstSection() {
+  const videos = [
+    {
+      title: "Day to Night Hyperlapse",
+      views: "1.2M Views",
+      category: "Time Manipulation",
+      desc: "Turn a sunny afternoon clip into a neon-lit cyberpunk night scene with one prompt.",
+      img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      title: "AI Character Integration",
+      views: "850K Views",
+      category: "VFX & Masking",
+      desc: "Seamlessly rotoscope and drop 3D AI characters into your real-life street footage.",
+      img: "https://images.unsplash.com/photo-1616499370260-485b3e5ed653?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      title: "Room Grow Effect",
+      views: "2.4M Views",
+      category: "Spatial Transitions",
+      desc: "Create the viral 'room expanding' illusion perfectly synced to your audio beat.",
+      img: "https://images.unsplash.com/photo-1535016120720-40c746a51d47?q=80&w=800&auto=format&fit=crop"
+    },
+    {
+      title: "Phone Zoom Masterclass",
+      views: "500K Views",
+      category: "Camera Moves",
+      desc: "Simulate a million-dollar motion control camera rig using just a static phone shot.",
+      img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+    }
+  ];
+
+  return (
+    <section className="py-32 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-pink-50 text-pink-600 font-bold text-xs uppercase tracking-widest mb-6 border border-pink-100"
+          >
+            Vertical Optimized
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-6 tracking-tight">
+            A Video First Approach
+          </h2>
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg">
+            We believe the future of content is vertical. Engage your audience where they already are with high-retention AI-generated shorts, reels, and tutorials.
+          </p>
+        </div>
+
+        {/* Interactive Expanding Accordion Layout */}
+        <div className="flex flex-col lg:flex-row gap-4 h-[800px] lg:h-[600px] w-full">
+          {videos.map((vid, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="relative flex-1 hover:flex-[3] transition-all duration-500 ease-in-out overflow-hidden rounded-[32px] group cursor-pointer bg-indigo-950 shadow-2xl shadow-indigo-900/10 border-2 border-transparent hover:border-yellow-400"
+            >
+              {/* Background Image */}
+              <img
+                src={vid.img}
+                alt={vid.title}
+                className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-90 transition-opacity duration-500"
+              />
+
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
+
+              {/* Center Play Button (Visible when NOT hovered) */}
+              <div className="absolute inset-0 flex items-center justify-center opacity-100 lg:group-hover:opacity-0 transition-opacity duration-300">
+                <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 shadow-lg">
+                  <Play className="w-6 h-6 text-white ml-1 fill-white" />
+                </div>
+              </div>
+
+              {/* Content Area */}
+              <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full flex flex-col justify-end h-full">
+
+                {/* Meta Tags (Fades in on hover) */}
+                <div className="flex items-center gap-3 mb-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 lg:delay-100">
+                  <span className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full tracking-wider shadow-md">
+                    {vid.views}
+                  </span>
+                  <span className="text-yellow-400 font-bold text-xs tracking-widest uppercase">
+                    {vid.category}
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-white font-black text-2xl md:text-3xl mb-0 lg:mb-2 whitespace-nowrap lg:truncate lg:group-hover:whitespace-normal transition-all duration-300 drop-shadow-lg">
+                  {vid.title}
+                </h3>
+
+                {/* Description & Button (Expands on hover) */}
+                <div className="overflow-hidden max-h-0 lg:group-hover:max-h-40 transition-all duration-500 ease-in-out opacity-100 lg:opacity-0 lg:group-hover:opacity-100">
+                  <p className="text-white/80 text-sm md:text-base mb-6 mt-2 leading-relaxed">
+                    {vid.desc}
+                  </p>
+                  <button className="flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold rounded-full transition-colors w-max shadow-lg">
+                    <Play className="w-4 h-4 fill-current" /> Watch Masterclass
+                  </button>
+                </div>
+
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+function ProjectsSection() {
+  const capabilities = [
+    {
+      title: "Speed Ramps & Motion Blur",
+      desc: "Instantly add dynamic speed curves and realistic motion blur without keyframing.",
+      img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=600&auto=format&fit=crop"
+    },
+    {
+      title: "Smart Masking",
+      desc: "Isolate subjects with 99% accuracy in seconds using our AI-driven rotoscoping.",
+      img: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?q=80&w=600&auto=format&fit=crop"
+    },
+    {
+      title: "Start & End Frame Matching",
+      desc: "Seamlessly connect disparate clips with automated scene transition generation.",
+      img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop"
+    }
+  ];
+
+  return (
+    <section className="py-32 bg-white border-t border-gray-100 relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="text-center mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-indigo-50 border border-indigo-100 mb-6"
+          >
+            <Zap className="w-4 h-4 text-indigo-600" />
+            <span className="text-sm font-bold tracking-widest text-indigo-900 uppercase">Core Capabilities</span>
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-6 tracking-tight">
+            Automated Workflows
+          </h2>
+          <p className="text-gray-500 max-w-2xl mx-auto text-lg leading-relaxed">
+            Take a look at the capabilities powering the next generation of video editing. From speed ramps to masking, we handle the heavy lifting.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {capabilities.map((item, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -10 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white rounded-[32px] overflow-hidden shadow-xl shadow-indigo-900/5 group cursor-pointer border border-gray-100 flex flex-col"
+            >
+              <div className="h-64 bg-gray-100 relative overflow-hidden">
+                <img src={item.img} alt={item.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out" />
+                <div className="absolute inset-0 bg-indigo-950/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/50 transform scale-50 group-hover:scale-100 transition-all duration-300">
+                    <ArrowRight className="w-5 h-5 text-white" />
+                  </div>
+                </div>
+              </div>
+              <div className="p-8 bg-white flex-1 flex flex-col justify-center">
+                <h3 className="font-black text-xl text-indigo-950 mb-3">{item.title}</h3>
+                <p className="text-gray-500 leading-relaxed text-sm">
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function StatsSection() {
+  return (
+    <section className="py-32 bg-gradient-to-b from-orange-50 to-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 flex flex-col lg:flex-row items-center gap-16">
+
+        <div className="w-full lg:w-1/2 relative">
+          <motion.div
+            animate={{ y: [-15, 15, -15] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="w-full aspect-[4/3] bg-gradient-to-br from-indigo-500 to-purple-600 rounded-[40px] p-8 relative shadow-[0_20px_50px_-10px_rgba(99,102,241,0.4)] flex flex-col justify-between overflow-hidden border-4 border-white"
+          >
+            <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
+            <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-pink-500/20 rounded-full blur-2xl" />
+
+            <div className="flex justify-between items-start relative z-10">
+              <div className="px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white font-bold text-sm border border-white/30">
+                Efficiency Analysis
+              </div>
+              <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center shadow-lg">
+                <Zap className="w-6 h-6 text-yellow-500" />
+              </div>
+            </div>
+
+            <div className="relative z-10">
+              <div className="text-white/80 font-medium mb-2 uppercase tracking-widest text-sm">Average Time Saved</div>
+              <div className="text-5xl md:text-6xl font-black text-white">1 Minute <span className="text-2xl font-medium text-white/70">to live</span></div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="w-full lg:w-1/2">
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+          >
+            <div className="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center text-indigo-600 mb-8 shadow-sm">
+              <ArrowRight className="w-6 h-6" />
+            </div>
+            <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-6 leading-tight tracking-tight">
+              Replace $8.8k/yr in <br /> tools and dev costs.
+            </h2>
+            <p className="text-gray-500 mb-12 text-lg leading-relaxed">
+              Stop stitching together five different tools. PromptEdit bundles everything into one intuitive platform so you can spend your time on the actual content, not the timeline.
+            </p>
+
+            <div className="grid grid-cols-3 gap-6 border-t border-gray-100 pt-8">
+              <div>
+                <div className="text-3xl md:text-4xl font-black text-indigo-600 mb-1">1m</div>
+                <div className="text-xs text-gray-400 font-bold uppercase tracking-widest">Prompt to Video</div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-black text-indigo-600 mb-1">100%</div>
+                <div className="text-xs text-gray-400 font-bold uppercase tracking-widest">Automated</div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-black text-indigo-600 mb-1">0</div>
+                <div className="text-xs text-gray-400 font-bold uppercase tracking-widest">Tech Skills</div>
+              </div>
             </div>
           </motion.div>
         </div>
@@ -291,217 +707,375 @@ function WorkflowShowcase() {
   );
 }
 
-function TemplatesGallery() {
-  const templates = [1, 2, 3, 4];
-  return (
-    <section id="templates" className="py-32 bg-[#050212]/30 border-y border-white/5 relative z-20">
-       <div className="max-w-[90rem] mx-auto px-6">
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-4">
-          <div>
-            <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Start Strong.</h2>
-            <p className="text-white/50 text-base md:text-lg">World-class master templates engineered by leading digital effects studios.</p>
-          </div>
-          <button className="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors font-semibold text-sm tracking-wide">
-            EXPLORE THE DIRECTORY <ChevronRight className="w-4 h-4" />
-          </button>
-        </div>
+function TeamSection() {
+  const team = [
+    { name: "Nick Miller", role: "AI VIDEO STRATEGIST", tag: "Founder", img: "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=400&auto=format&fit=crop" },
+    { name: "Anthony Gallo", role: "CINEMATIC DIRECTOR", tag: "Creative", img: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=400&auto=format&fit=crop" },
+    { name: "Lorien Dean", role: "AI EDITOR EXPERT", tag: "Tech", img: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=400&auto=format&fit=crop" }
+  ];
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {templates.map((i) => (
-            <motion.div 
+  return (
+    <section className="py-32 bg-[#fef08a] relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-yellow-300 rounded-full blur-3xl opacity-50 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-orange-300 rounded-full blur-3xl opacity-30 pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 text-center relative z-10">
+        <div className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-yellow-100 text-yellow-800 font-bold text-xs uppercase tracking-widest mb-6">
+          The Content Creator Team
+        </div>
+        <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-16 tracking-tight">
+          Learn from the experts behind <br /> the AI Creator Course
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {team.map((member, i) => (
+            <motion.div
+              whileHover={{ y: -15 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
               key={i}
-              whileHover={{ y: -8 }}
-              className="aspect-video rounded-2xl bg-white/5 border border-white/10 relative overflow-hidden group cursor-pointer transition-all duration-300"
+              className="bg-white p-6 rounded-[32px] shadow-xl shadow-yellow-900/10 flex flex-col items-center group relative border-2 border-transparent hover:border-yellow-400 transition-colors"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br opacity-30 group-hover:opacity-50 transition-all duration-500 ${i%2 === 0 ? 'from-purple-600 via-indigo-900 to-transparent' : 'from-cyan-600 via-blue-950 to-transparent'}`} />
-              <div className="absolute inset-0 p-6 flex flex-col justify-between z-10">
-                <div className="w-8 h-8 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform">
-                  <Play className="w-3 h-3 text-white ml-0.5 fill-current" />
+              <div className="absolute top-8 right-8 z-10 px-3 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-bold text-indigo-900 shadow-sm">
+                {member.tag}
+              </div>
+
+              <div className="w-full h-72 bg-gray-100 mb-8 overflow-hidden rounded-2xl relative">
+                <img src={member.img} alt={member.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-indigo-900/0 group-hover:bg-indigo-900/10 transition-colors duration-300" />
+              </div>
+
+              <h3 className="text-2xl font-black text-indigo-950 mb-1">{member.name}</h3>
+              <p className="text-indigo-600/70 text-xs font-bold mb-6 tracking-widest">{member.role}</p>
+
+              <div className="flex gap-3 text-gray-400 mb-2">
+                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center hover:bg-blue-50 hover:text-blue-400 cursor-pointer transition-all">
+                  <Twitter className="w-4 h-4" />
                 </div>
-                <div>
-                  <h4 className="text-lg font-bold group-hover:text-cyan-300 transition-colors">Cinematic Architecture {i}</h4>
-                  <p className="text-white/40 text-xs tracking-wider uppercase mt-1">Studio Asset • 4K HDR</p>
+                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center hover:bg-blue-50 hover:text-blue-700 cursor-pointer transition-all">
+                  <Linkedin className="w-4 h-4" />
                 </div>
               </div>
             </motion.div>
           ))}
         </div>
-       </div>
+      </div>
     </section>
   );
 }
 
-function Statistics() {
+// ==========================================
+// NEW SECTION: PRICING
+// ==========================================
+function PricingSection() {
+  const [isYearly, setIsYearly] = React.useState(false);
+
   return (
-    <section className="py-24 relative z-20">
-      <div className="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8 divide-y-0 md:divide-x divide-white/10">
-        {[
-          { number: "18M+", label: "Assets Rendered" },
-          { number: "0.12s", label: "Average Latency" },
-          { number: "99.8%", label: "Uptime SLA" },
-          { number: "8K", label: "Max Resolution" }
-        ].map((stat, i) => (
-          <motion.div 
-            key={i}
+    <section className="py-32 bg-gray-50 relative overflow-hidden border-t border-gray-100">
+      {/* Decorative Background Elements */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.1, duration: 0.6 }}
-            className="text-center px-4 pt-6 md:pt-0"
+            className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs uppercase tracking-widest mb-6"
           >
-            <div className="text-4xl md:text-6xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/30 tracking-tighter mb-2">
-              {stat.number}
-            </div>
-            <div className="text-white/40 font-medium tracking-widest uppercase text-xs">
-              {stat.label}
-            </div>
+            Flexible Pricing
           </motion.div>
-        ))}
-      </div>
-    </section>
-  );
-}
+          <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-6 tracking-tight">
+            Choose the perfect plan <br /> for your creative workflow
+          </h2>
 
-function Testimonials() {
-  return (
-    <section className="py-32 relative z-20 overflow-hidden bg-gradient-to-r from-[#030014] via-[#06041a] to-[#030014]">
-      <div className="max-w-4xl mx-auto text-center px-4 mb-16">
-        <h2 className="text-3xl md:text-4xl font-bold tracking-tight">Endorsed by the Industry.</h2>
-      </div>
-      
-      <div className="flex overflow-hidden select-none mask-gradient">
-        <motion.div 
-          animate={{ x: [0, -1500] }}
-          transition={{ repeat: Infinity, ease: "linear", duration: 32 }}
-          className="flex gap-8 px-4"
-        >
-          {[1, 2, 3, 4, 5, 6].map((i) => (
-            <div key={i} className="w-[350px] md:w-[450px] shrink-0 p-8 rounded-3xl bg-white/[0.03] border border-white/10 backdrop-blur-md flex flex-col justify-between">
-              <div>
-                <div className="flex gap-1 text-cyan-400 mb-6">
-                  {[1,2,3,4,5].map(s => <Star key={s} className="w-3.5 h-3.5 fill-current" />)}
-                </div>
-                <p className="text-base md:text-lg text-white/70 mb-8 leading-relaxed italic">
-                  "PromptEdit has completely accelerated how our production unit pitches concepts to networks. We generate cinematic quality updates live in the meeting room."
-                </p>
-              </div>
-              <div className="flex items-center gap-4 border-t border-white/5 pt-4">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-cyan-400 shrink-0" />
-                <div>
-                  <h5 className="font-semibold text-white/90 text-sm">Marcus Vance</h5>
-                  <p className="text-white/40 text-xs tracking-wide">VFX Lead, Omnicom Global</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
-  );
-}
-
-function PricingPreview() {
-  return (
-    <section id="pricing" className="py-32 relative z-20">
-      <div className="max-w-7xl mx-auto px-4 text-center">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="mb-16"
-        >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 tracking-tight">Transparent Enterprise Power.</h2>
-          <p className="text-white/50 text-base md:text-lg">Scale your creative output without artificial limitations.</p>
-        </motion.div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto text-left items-stretch">
-          {/* Plan 1 */}
-          <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 flex flex-col justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-white/90 mb-1">Starter</h3>
-              <p className="text-white/40 text-xs mb-6">For individual creators exploring AI</p>
-              <div className="text-4xl font-extrabold mb-6">$19<span className="text-sm text-white/40 font-normal">/mo</span></div>
-              <ul className="space-y-4 text-sm text-white/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-white/40" /> Standard Generation Speeds</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-white/40" /> 1080p Maximum Export</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-white/40" /> Personal Use License</li>
-              </ul>
-            </div>
-            <button className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-medium border border-white/10 transition-colors mt-8">
-              Get Started
+          {/* Toggle Switch */}
+          <div className="flex items-center justify-center gap-4 mt-10">
+            <span className={`font-bold text-sm transition-colors ${!isYearly ? 'text-indigo-950' : 'text-gray-400'}`}>Monthly</span>
+            <button
+              onClick={() => setIsYearly(!isYearly)}
+              className="w-16 h-8 bg-indigo-100 rounded-full p-1 relative transition-colors focus:outline-none shadow-inner"
+            >
+              <motion.div
+                animate={{ x: isYearly ? 32 : 0 }}
+                className="w-6 h-6 bg-indigo-600 rounded-full shadow-md"
+              />
             </button>
+            <span className={`font-bold text-sm flex items-center gap-2 transition-colors ${isYearly ? 'text-indigo-950' : 'text-gray-400'}`}>
+              Yearly <span className="px-2 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full uppercase tracking-wider font-black">Save 20%</span>
+            </span>
           </div>
+        </div>
 
-          {/* Plan 2 - Pro Flagship */}
-          <div className="p-[1px] rounded-3xl bg-gradient-to-b from-cyan-400 via-blue-500 to-purple-600 relative shadow-[0_0_60px_-15px_rgba(6,182,212,0.3)]">
-             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-1 rounded-full text-xs font-bold tracking-widest shadow-lg uppercase">
-               RECOMMENDED
-             </div>
-             <div className="bg-[#070514] rounded-[23px] p-8 h-full flex flex-col justify-between">
-               <div>
-                 <h3 className="text-2xl font-bold text-white mb-1">Pro Studio</h3>
-                 <p className="text-white/50 text-xs mb-6">For professional directors & teams</p>
-                 <div className="text-5xl font-black mb-6">$49<span className="text-base text-white/40 font-normal">/mo</span></div>
-                 <ul className="space-y-4 text-sm">
-                   <li className="flex items-center gap-3"><CheckCircle className="w-4 h-4 text-cyan-400" /> <strong>Unlimited</strong> AI Generations</li>
-                   <li className="flex items-center gap-3"><CheckCircle className="w-4 h-4 text-cyan-400" /> Native 4K HDR Export</li>
-                   <li className="flex items-center gap-3"><CheckCircle className="w-4 h-4 text-cyan-400" /> Full Commercial Production License</li>
-                   <li className="flex items-center gap-3"><CheckCircle className="w-4 h-4 text-cyan-400" /> Priority Server Allocation</li>
-                 </ul>
-               </div>
-               <button className="w-full py-3.5 rounded-xl bg-white text-black font-bold shadow-md hover:bg-neutral-200 transition-colors mt-8">
-                 Upgrade to Pro
-               </button>
-             </div>
-          </div>
+        {/* Pricing Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto items-center">
 
-          {/* Plan 3 */}
-          <div className="bg-white/[0.02] border border-white/5 rounded-3xl p-8 flex flex-col justify-between">
-            <div>
-              <h3 className="text-xl font-bold text-white/90 mb-1">Enterprise</h3>
-              <p className="text-white/40 text-xs mb-6">Custom features for scale operations</p>
-              <div className="text-4xl font-extrabold mb-6">Custom</div>
-              <ul className="space-y-4 text-sm text-white/70">
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-400" /> Dedicated Custom Fine-Tuned Models</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-400" /> 8K Raw Export Framework</li>
-                <li className="flex items-center gap-2"><CheckCircle className="w-4 h-4 text-purple-400" /> Multi-Seat Team Floating Licenses</li>
-              </ul>
+          {/* Starter Plan */}
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="bg-white rounded-[32px] p-8 md:p-10 shadow-xl shadow-indigo-900/5 border border-gray-100 flex flex-col h-full"
+          >
+            <h3 className="text-xl font-bold text-indigo-950 mb-2">Starter</h3>
+            <p className="text-gray-500 text-sm mb-6 h-10">Perfect for individual creators just getting started.</p>
+            <div className="flex items-baseline gap-1 mb-8">
+              <span className="text-4xl font-black text-indigo-950">${isYearly ? '16' : '20'}</span>
+              <span className="text-gray-500 font-medium">/mo</span>
             </div>
-            <button className="w-full py-3 rounded-xl bg-white/5 hover:bg-white/10 text-white font-medium border border-white/10 transition-colors mt-8">
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center gap-3 text-gray-600 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center"><Zap className="w-3 h-3 text-indigo-500" /></div>
+                50 AI Generations / month
+              </li>
+              <li className="flex items-center gap-3 text-gray-600 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center"><Zap className="w-3 h-3 text-indigo-500" /></div>
+                1080p Video Export
+              </li>
+              <li className="flex items-center gap-3 text-gray-600 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center"><Zap className="w-3 h-3 text-indigo-500" /></div>
+                Standard Support
+              </li>
+            </ul>
+            <button className="w-full py-4 rounded-full border-2 border-indigo-100 text-indigo-600 font-bold hover:bg-indigo-50 transition-colors mt-auto">
+              Start Free Trial
+            </button>
+          </motion.div>
+
+          {/* Pro Plan (Highlighted) */}
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="bg-indigo-950 rounded-[32px] p-8 md:p-10 shadow-2xl shadow-indigo-900/20 border border-indigo-800 relative md:-my-6 z-10 flex flex-col h-[105%]"
+          >
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 px-4 py-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full text-indigo-950 text-xs font-black uppercase tracking-widest shadow-lg">
+              Most Popular
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Pro</h3>
+            <p className="text-indigo-200 text-sm mb-6 h-10">For professional creators needing unlimited power.</p>
+            <div className="flex items-baseline gap-1 mb-8">
+              <span className="text-5xl font-black text-white">${isYearly ? '40' : '50'}</span>
+              <span className="text-indigo-200 font-medium">/mo</span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center gap-3 text-white/90 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center"><Zap className="w-3 h-3 text-yellow-400 fill-current" /></div>
+                Unlimited AI Generations
+              </li>
+              <li className="flex items-center gap-3 text-white/90 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center"><Zap className="w-3 h-3 text-yellow-400 fill-current" /></div>
+                4K HDR Video Export
+              </li>
+              <li className="flex items-center gap-3 text-white/90 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center"><Zap className="w-3 h-3 text-yellow-400 fill-current" /></div>
+                Priority Cloud Rendering
+              </li>
+              <li className="flex items-center gap-3 text-white/90 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center"><Zap className="w-3 h-3 text-yellow-400 fill-current" /></div>
+                24/7 Priority Support
+              </li>
+            </ul>
+            <button className="w-full py-4 rounded-full bg-yellow-400 text-indigo-950 font-black hover:bg-yellow-300 transition-colors shadow-[0_0_20px_rgba(250,204,21,0.3)] mt-auto">
+              Upgrade to Pro
+            </button>
+          </motion.div>
+
+          {/* Team Plan */}
+          <motion.div
+            whileHover={{ y: -10 }}
+            className="bg-white rounded-[32px] p-8 md:p-10 shadow-xl shadow-indigo-900/5 border border-gray-100 flex flex-col h-full"
+          >
+            <h3 className="text-xl font-bold text-indigo-950 mb-2">Team</h3>
+            <p className="text-gray-500 text-sm mb-6 h-10">For agencies and collaborative video teams.</p>
+            <div className="flex items-baseline gap-1 mb-8">
+              <span className="text-4xl font-black text-indigo-950">${isYearly ? '79' : '99'}</span>
+              <span className="text-gray-500 font-medium">/user/mo</span>
+            </div>
+            <ul className="space-y-4 mb-8 flex-1">
+              <li className="flex items-center gap-3 text-gray-600 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center"><Zap className="w-3 h-3 text-indigo-500" /></div>
+                Everything in Pro
+              </li>
+              <li className="flex items-center gap-3 text-gray-600 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center"><Zap className="w-3 h-3 text-indigo-500" /></div>
+                Real-time Collaboration
+              </li>
+              <li className="flex items-center gap-3 text-gray-600 text-sm font-medium">
+                <div className="w-5 h-5 rounded-full bg-indigo-50 flex items-center justify-center"><Zap className="w-3 h-3 text-indigo-500" /></div>
+                Team Asset Library
+              </li>
+            </ul>
+            <button className="w-full py-4 rounded-full border-2 border-indigo-100 text-indigo-600 font-bold hover:bg-indigo-50 transition-colors mt-auto">
               Contact Sales
             </button>
-          </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
   );
 }
 
-function FinalCTA() {
+// ==========================================
+// NEW SECTION: FAQ / ACCORDION
+// ==========================================
+function FAQSection() {
+  const [openIndex, setOpenIndex] = React.useState(0);
+
+  const faqs = [
+    {
+      question: "Do I need any prior video editing experience?",
+      answer: "Not at all! PromptEdit is designed for beginners and pros alike. If you can type a text prompt, you can generate and edit stunning cinematic videos in minutes."
+    },
+    {
+      question: "How does the Triple Threat Formula GPT work?",
+      answer: "It's our custom AI model trained on thousands of high-converting YouTube thumbnails. Just enter your video topic, and it generates 3 different psychological angles and thumbnail concepts instantly."
+    },
+    {
+      question: "Can I use the generated videos commercially?",
+      answer: "Yes! All videos and assets generated on our Pro and Team plans come with a full commercial license, meaning you can use them for client work, YouTube monetization, and ads."
+    },
+    {
+      question: "Is there a limit on how many videos I can export?",
+      answer: "The Starter plan allows 50 generations per month, but our Pro plan gives you unlimited AI generations and 4K HDR exports with no watermarks."
+    }
+  ];
+
   return (
-    <section className="py-40 relative z-20 overflow-hidden border-t border-white/5">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-950/10 to-transparent pointer-events-none" />
-      <div className="max-w-4xl mx-auto px-4 text-center relative z-10">
-        <motion.h2 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-4xl md:text-7xl font-extrabold tracking-tighter mb-8 leading-tight"
-        >
-          Redefine your <br/> creative limitations.
-        </motion.h2>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.2, duration: 0.8 }}
-        >
-          <button className="px-10 py-5 rounded-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-600 text-white font-bold text-lg hover:scale-105 transition-transform shadow-[0_0_40px_-5px_rgba(6,182,212,0.5)]">
-            Create Your Free Account
+    <section className="py-32 bg-white relative overflow-hidden">
+      {/* Decorative Background Patterns */}
+      <div className="absolute top-0 right-0 w-1/2 h-full bg-indigo-50/50 skew-x-12 translate-x-32 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-yellow-100 rounded-full blur-3xl opacity-50 pointer-events-none" />
+
+      <div className="max-w-4xl mx-auto px-4 md:px-8 relative z-10">
+
+        {/* Section Header */}
+        <div className="text-center mb-16">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-pink-50 text-pink-600 font-bold text-xs uppercase tracking-widest mb-6 border border-pink-100"
+          >
+            Got Questions?
+          </motion.div>
+          <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-6 tracking-tight">
+            Frequently Asked Questions
+          </h2>
+          <p className="text-gray-500 text-lg">
+            Everything you need to know about PromptEdit and our AI workflows.
+          </p>
+        </div>
+
+        {/* FAQ Accordion List */}
+        <div className="space-y-4">
+          {faqs.map((faq, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+              className={`border-2 rounded-[24px] overflow-hidden transition-colors duration-300 ${openIndex === index ? 'border-indigo-600 bg-indigo-50/30' : 'border-gray-100 bg-white hover:border-indigo-200'}`}
+            >
+              <button
+                onClick={() => setOpenIndex(openIndex === index ? -1 : index)}
+                className="w-full flex items-center justify-between p-6 md:p-8 text-left focus:outline-none"
+              >
+                <span className={`text-lg md:text-xl font-bold pr-4 transition-colors ${openIndex === index ? 'text-indigo-900' : 'text-indigo-950'}`}>
+                  {faq.question}
+                </span>
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center shrink-0 transition-transform duration-300 ${openIndex === index ? 'bg-indigo-600 rotate-180' : 'bg-gray-100 rotate-0'}`}>
+                  <svg className={`w-5 h-5 transition-colors ${openIndex === index ? 'text-white' : 'text-indigo-900'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </button>
+
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${openIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}
+              >
+                <p className="p-6 md:p-8 pt-0 text-gray-600 leading-relaxed text-base md:text-lg">
+                  {faq.answer}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Support CTA */}
+        <div className="mt-16 text-center">
+          <p className="text-gray-500 font-medium mb-4">Still have questions?</p>
+          <button className="px-8 py-3 bg-indigo-950 text-white font-bold rounded-full hover:bg-indigo-800 transition-colors shadow-lg">
+            Contact Support
           </button>
-          <p className="mt-4 text-white/30 text-xs tracking-wide">Instant Setup • No Credit Card Required</p>
-        </motion.div>
+        </div>
+
+      </div>
+    </section>
+  );
+}
+
+function BlogSection() {
+  const posts = [
+    { title: "How To Add AI Characters To Real Footage", desc: "Learn how to film content and seamlessly animate your AI character with masking and color adjustments." },
+    { title: "How to Create CINEMATIC AI Transitions", desc: "Master the Room Grow Effect and Day to Night Hyperlapse using PromptEdit and our prompt guide." },
+    { title: "Make AI Thumbnails In 3 Minutes", desc: "Apply our free Triple Threat Formula GPT to generate high-converting YouTube thumbnails fast." }
+  ];
+
+  return (
+    <section className="py-32 bg-gray-50 relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
+        <div className="inline-flex items-center justify-center px-4 py-2 rounded-full bg-indigo-100 text-indigo-700 font-bold text-xs uppercase tracking-widest mb-6">
+          Free Resources
+        </div>
+        <h2 className="text-4xl md:text-5xl font-black text-indigo-950 mb-6 tracking-tight">
+          AI Creator Course Tutorials
+        </h2>
+        <p className="text-gray-500 max-w-2xl mx-auto mb-16 text-lg">
+          Stay up to date with our follow-along prompt guides and YouTube editing starter packs.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
+          {posts.map((post, i) => (
+            <motion.div
+              key={i}
+              whileHover={{ y: -10 }}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+              className="bg-white rounded-[32px] overflow-hidden shadow-lg shadow-indigo-900/5 hover:shadow-2xl transition-all duration-300 border border-gray-100 group flex flex-col"
+            >
+              <div className="h-56 bg-gray-200 overflow-hidden relative cursor-pointer">
+                <div className="absolute top-4 left-4 z-20 px-3 py-1 bg-red-500 text-white font-bold text-xs uppercase tracking-widest rounded-full shadow-md">
+                  Tutorial
+                </div>
+                <div className="absolute inset-0 bg-indigo-950/30 z-10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 backdrop-blur-sm">
+                  <div className="w-16 h-16 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/50 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                    <Play className="w-6 h-6 text-white fill-white ml-1" />
+                  </div>
+                </div>
+                <img src={`https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=600&auto=format&fit=crop&sig=${i + 10}`} alt="Video Thumbnail" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+              </div>
+
+              <div className="p-8 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="text-2xl font-black text-indigo-950 mb-3 line-clamp-2 leading-snug group-hover:text-indigo-600 transition-colors">
+                    {post.title}
+                  </h3>
+                  <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed">
+                    {post.desc}
+                  </p>
+                </div>
+                <a href="#" className="inline-flex items-center gap-2 text-indigo-600 font-bold text-sm hover:text-indigo-800 transition-colors group/link mt-auto">
+                  Watch Now <ArrowRight className="w-4 h-4 transform group-hover/link:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -509,40 +1083,67 @@ function FinalCTA() {
 
 function Footer() {
   return (
-    <footer className="py-16 border-t border-white/10 bg-[#02000c] relative z-20 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-        <div>
-          <div className="text-xl font-bold tracking-tighter mb-4">PromptEdit<span className="text-cyan-500">.</span></div>
-          <p className="text-white/40 text-xs leading-relaxed max-w-xs">The premium cloud AI engine engineered for professional-grade media synthesis and fast content deployment.</p>
+    <footer className="relative text-white pt-32 pb-12 overflow-hidden bg-[url('https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=2400&auto=format&fit=crop')] bg-cover bg-bottom bg-no-repeat border-t border-gray-100">
+      <div className="absolute inset-0 bg-[#1a0b2e]/90 mix-blend-multiply" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#1a0b2e] via-[#1a0b2e]/80 to-transparent" />
+
+      <div className="absolute top-[-111px] w-full overflow-hidden leading-none z-0 -translate-y-1">
+        <svg viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#f9fafb" fillOpacity="1" d="M0,160L80,149.3C160,139,320,117,480,128C640,139,800,181,960,192C1120,203,1280,181,1360,170.7L1440,160L1440,0L1360,0C1280,0,1120,0,960,0C800,0,640,0,480,0C320,0,160,0,80,0L0,0Z"></path>
+        </svg>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-8 relative z-10 grid grid-cols-1 md:grid-cols-4 gap-12 mt-20">
+        <div className="col-span-1 md:col-span-1">
+          <div className="text-2xl font-black tracking-tighter text-white mb-6">
+            PromptEdit<span className="text-yellow-400">.</span>
+          </div>
+          <p className="text-white/70 text-sm mb-6 leading-relaxed">
+            The most intuitive video editing tool UI in the world. Powered by ChatGPT and Claude to automate your creative workflow.
+          </p>
+          <div className="flex gap-4">
+            <Twitter className="w-5 h-5 text-white/70 hover:text-yellow-400 cursor-pointer transition-colors" />
+            <Facebook className="w-5 h-5 text-white/70 hover:text-yellow-400 cursor-pointer transition-colors" />
+            <Linkedin className="w-5 h-5 text-white/70 hover:text-yellow-400 cursor-pointer transition-colors" />
+          </div>
         </div>
+
         <div>
-          <h4 className="font-bold text-sm text-white/80 mb-4 tracking-wider uppercase">Platform</h4>
-          <ul className="space-y-2 text-white/50 text-xs">
-            <li><a href="#features" className="hover:text-white transition-colors">Features</a></li>
-            <li><a href="#templates" className="hover:text-white transition-colors">Templates Hub</a></li>
-            <li><a href="#pricing" className="hover:text-white transition-colors">Plans & Pricing</a></li>
+          <h4 className="font-bold mb-6 text-lg">Resources</h4>
+          <ul className="space-y-3 text-white/70 text-sm">
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">AI Creator Course</a></li>
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">Triple Threat Formula GPT</a></li>
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">YouTube Starter Pack</a></li>
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">Prompt Guides</a></li>
           </ul>
         </div>
+
         <div>
-          <h4 className="font-bold text-sm text-white/80 mb-4 tracking-wider uppercase">Resources</h4>
-          <ul className="space-y-2 text-white/50 text-xs">
-            <li><a href="#" className="hover:text-white transition-colors">Documentation</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">System Status</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">API Guide</a></li>
+          <h4 className="font-bold mb-6 text-lg">Platform</h4>
+          <ul className="space-y-3 text-white/70 text-sm">
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">Pricing (Free / $20 Pro / $50 Team)</a></li>
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">Contact Us</a></li>
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">Terms of Service</a></li>
+            <li><a href="#" className="hover:text-yellow-400 transition-colors">Privacy Policy</a></li>
           </ul>
         </div>
-        <div>
-          <h4 className="font-bold text-sm text-white/80 mb-4 tracking-wider uppercase">Legal</h4>
-          <ul className="space-y-2 text-white/50 text-xs">
-            <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Privacy Charter</a></li>
-            <li><a href="#" className="hover:text-white transition-colors">Content Licensing</a></li>
-          </ul>
+
+        <div className="col-span-1 md:col-span-1">
+          <h4 className="font-bold mb-6 text-lg">Join the waitlist</h4>
+          <p className="text-white/70 text-sm mb-4">
+            Get lifetime access to the AI Creator Course and PromptEdit updates.
+          </p>
+          <div className="flex border border-white/20 rounded-full overflow-hidden bg-white/5 backdrop-blur-sm focus-within:border-yellow-400 transition-colors">
+            <input type="email" placeholder="email@example.com" className="bg-transparent px-4 py-3 w-full text-sm outline-none text-white placeholder-white/50" />
+            <button className="bg-yellow-400 text-indigo-900 font-bold px-6 py-3 text-sm hover:bg-yellow-300 transition-colors">
+              SUBSCRIBE
+            </button>
+          </div>
         </div>
       </div>
-      <div className="max-w-7xl mx-auto pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-white/30 text-xs">
-        <div>© {new Date().getFullYear()} PromptEdit Technologies Inc. All rights reserved.</div>
-        <div className="text-white/15 font-mono">APPLE_POLISH_FRAMEWORK_v2.0</div>
+
+      <div className="text-center text-white/40 text-xs mt-24 border-t border-white/10 pt-8 relative z-10">
+        © {new Date().getFullYear()} PromptEdit. ALL RIGHTS RESERVED.
       </div>
     </footer>
   );
