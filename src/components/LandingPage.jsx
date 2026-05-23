@@ -1,13 +1,19 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Play, Video, Zap, Image as ImageIcon, ArrowRight, Twitter, Linkedin, Facebook, Layout, Code, Layers, Workflow, Palette } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Play, Video, Zap, Image as ImageIcon, ArrowRight, Twitter, Linkedin, Facebook, Layout, Code, Layers, Workflow, Palette, X, Eye, EyeOff, User, Lock, Mail } from 'lucide-react';
 export default function LandingPage() {
+  // Modal state manage karne ke liye
+  const [authModal, setAuthModal] = useState({ isOpen: false, view: 'login' });
+
   return (
     <div className="font-sans overflow-x-hidden bg-white text-gray-800 selection:bg-yellow-400/30">
-      <Navbar />
+      {/* Navbar ko function pass kiya modal open karne ke liye */}
+      <Navbar openAuthModal={(view) => setAuthModal({ isOpen: true, view })} />
+
       <HeroSection />
-      <ServicesSection />
+
       <DarkFeaturesSection />
+      <ServicesSection />
       <HowItWorksSection />
       <VideoFirstSection />
       <ProjectsSection />
@@ -17,18 +23,26 @@ export default function LandingPage() {
       <FAQSection />
       <BlogSection />
       <Footer />
+
+      {/* Naya Auth Modal Component */}
+      <AuthModal
+        isOpen={authModal.isOpen}
+        view={authModal.view}
+        onClose={() => setAuthModal({ ...authModal, isOpen: false })}
+        switchView={(view) => setAuthModal({ ...authModal, view })}
+      />
     </div>
   );
 }
 
-function Navbar() {
+// Navbar mein a tag ki jagah button add kiye gaye hain
+function Navbar({ openAuthModal }) {
   return (
     <nav className="absolute top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-6 max-w-7xl mx-auto">
       <div className="text-2xl font-black tracking-tighter text-white">
         PromptEdit<span className="text-yellow-400">.</span>
       </div>
 
-      {/* Centered Navigation Links */}
       <div className="hidden lg:flex gap-8 text-sm font-medium text-white/90">
         <a href="#" className="hover:text-yellow-400 transition-colors">HOME</a>
         <a href="#" className="hover:text-yellow-400 transition-colors">AI FEATURES</a>
@@ -37,16 +51,157 @@ function Navbar() {
         <a href="#" className="hover:text-yellow-400 transition-colors">TUTORIALS</a>
       </div>
 
-      {/* Right Side Auth Buttons (Replaced Menu Icon) */}
       <div className="flex items-center gap-4 md:gap-6">
-        <a href="#" className="text-sm font-bold text-white hover:text-yellow-400 transition-colors hidden sm:block">
+        {/* Sign In Button - Opens Login view */}
+        <button
+          onClick={() => openAuthModal('login')}
+          className="text-sm font-bold text-white hover:text-yellow-400 transition-colors hidden sm:block focus:outline-none"
+        >
           Sign In
-        </a>
-        <button className="px-6 py-2.5 rounded-full bg-yellow-400 text-indigo-900 font-bold text-sm hover:bg-yellow-300 transition-all shadow-[0_0_15px_rgba(250,204,21,0.3)] hover:scale-105">
+        </button>
+        {/* Sign Up Button - Opens Signup view */}
+        <button
+          onClick={() => openAuthModal('signup')}
+          className="px-6 py-2.5 rounded-full bg-yellow-400 text-indigo-900 font-bold text-sm hover:bg-yellow-300 transition-all shadow-[0_0_15px_rgba(250,204,21,0.3)] hover:scale-105 focus:outline-none"
+        >
           Sign Up
         </button>
       </div>
     </nav>
+  );
+}
+
+// ==========================================
+// NEW WHITE-THEME AUTH MODAL (XUPE STYLE)
+// ==========================================
+function AuthModal({ isOpen, view, onClose, switchView }) {
+  const [showPassword, setShowPassword] = React.useState(false);
+  const isLogin = view === 'login';
+
+  // Modal open hone par background scroll band karne ke liye
+  React.useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isOpen]);
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
+
+      {/* Background click to close */}
+      <div className="absolute inset-0" onClick={onClose}></div>
+
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        className="w-full max-w-sm bg-white rounded-[32px] p-8 relative shadow-2xl z-10"
+      >
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-gray-100 hover:bg-gray-200 rounded-full text-gray-500 transition-colors z-50 focus:outline-none"
+        >
+          <X className="w-4 h-4" />
+        </button>
+
+        {/* Modal Header & Avatar */}
+        <div className="flex flex-col items-center mb-8">
+          <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 shadow-inner border border-gray-100">
+            <User className="w-10 h-10 text-gray-300" />
+          </div>
+
+          <h2 className="text-2xl font-black text-indigo-950 tracking-tight">
+            {isLogin ? 'Login To XUPE' : 'Create XUPE Account'}
+          </h2>
+        </div>
+
+        {/* Form Fields */}
+        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+
+          {/* Full Name (Only for Signup) */}
+          {!isLogin && (
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <User className="w-5 h-5 text-gray-400" />
+              </div>
+              <input
+                type="text"
+                placeholder="Full Name"
+                className="w-full pl-12 pr-4 py-3.5 rounded-full bg-gray-50 border border-gray-100 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all text-gray-700 font-medium shadow-inner"
+              />
+            </div>
+          )}
+
+          {/* Username / Email Field */}
+          <div className="relative">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              {isLogin ? <User className="w-5 h-5 text-gray-400" /> : <Mail className="w-5 h-5 text-gray-400" />}
+            </div>
+            <input
+              type={isLogin ? "text" : "email"}
+              placeholder={isLogin ? "Username" : "Email Address"}
+              className="w-full pl-12 pr-4 py-3.5 rounded-full bg-gray-50 border border-gray-100 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all text-gray-700 font-medium shadow-inner"
+            />
+          </div>
+
+          {/* Password Field */}
+          <div>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <Lock className="w-5 h-5 text-gray-400" />
+              </div>
+              <input
+                type={showPassword ? "text" : "password"}
+                placeholder="Password"
+                className="w-full pl-12 pr-12 py-3.5 rounded-full bg-gray-50 border border-gray-100 focus:bg-white focus:border-pink-400 focus:ring-4 focus:ring-pink-400/10 outline-none transition-all text-gray-700 font-medium shadow-inner"
+              />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute inset-y-0 right-0 pr-4 flex items-center text-gray-400 hover:text-pink-500 transition-colors focus:outline-none"
+              >
+                {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+              </button>
+            </div>
+
+            {/* Forgot Password Link */}
+            {isLogin && (
+              <div className="text-right mt-3 pr-2">
+                <a href="#" className="text-sm font-bold text-gray-400 hover:text-pink-500 transition-colors">
+                  Forgot Password?
+                </a>
+              </div>
+            )}
+          </div>
+
+          {/* Login / Sign Up Button */}
+          <button
+            className="w-full py-4 mt-2 bg-gradient-to-r from-pink-500 to-orange-400 text-white font-black rounded-full hover:shadow-[0_10px_20px_-10px_rgba(236,72,153,0.6)] transition-all duration-300 hover:scale-[1.02] active:scale-95"
+          >
+            {isLogin ? 'Login' : 'Sign Up'}
+          </button>
+        </form>
+
+        {/* Bottom Toggle Link */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500 font-medium">
+            {isLogin ? "New to XUPE? " : "Already have an account? "}
+            <button
+              onClick={() => switchView(isLogin ? 'signup' : 'login')}
+              className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-orange-400 hover:opacity-80 transition-opacity focus:outline-none"
+            >
+              {isLogin ? 'Create an Account' : 'Login'}
+            </button>
+          </p>
+        </div>
+
+      </motion.div>
+    </div>
   );
 }
 
@@ -445,39 +600,56 @@ function HowItWorksSection() {
 }
 
 // ==========================================
-// NEW ULTRA-CREATIVE SECTION: A VIDEO FIRST APPROACH
+// REVISED SECTION: A VIDEO FIRST APPROACH (WITH POPUP)
 // ==========================================
 function VideoFirstSection() {
+  // State for managing the popup
+  const [activeVideo, setActiveVideo] = React.useState(null);
+
+  // Added dummy 'videoUrl' for the iframe (Replace with your actual video URLs)
   const videos = [
     {
       title: "Day to Night Hyperlapse",
       views: "1.2M Views",
       category: "Time Manipulation",
       desc: "Turn a sunny afternoon clip into a neon-lit cyberpunk night scene with one prompt.",
-      img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop"
+      img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=800&auto=format&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
       title: "AI Character Integration",
       views: "850K Views",
       category: "VFX & Masking",
       desc: "Seamlessly rotoscope and drop 3D AI characters into your real-life street footage.",
-      img: "https://images.unsplash.com/photo-1616499370260-485b3e5ed653?q=80&w=800&auto=format&fit=crop"
+      img: "https://images.unsplash.com/photo-1616499370260-485b3e5ed653?q=80&w=800&auto=format&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
       title: "Room Grow Effect",
       views: "2.4M Views",
       category: "Spatial Transitions",
       desc: "Create the viral 'room expanding' illusion perfectly synced to your audio beat.",
-      img: "https://images.unsplash.com/photo-1535016120720-40c746a51d47?q=80&w=800&auto=format&fit=crop"
+      img: "https://images.unsplash.com/photo-1535016120720-40c746a51d47?q=80&w=800&auto=format&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     },
     {
       title: "Phone Zoom Masterclass",
       views: "500K Views",
       category: "Camera Moves",
       desc: "Simulate a million-dollar motion control camera rig using just a static phone shot.",
-      img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+      img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop",
+      videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
     }
   ];
+
+  // Disable body scroll when modal is open
+  React.useEffect(() => {
+    if (activeVideo) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [activeVideo]);
 
   return (
     <section className="py-32 bg-white relative overflow-hidden">
@@ -510,29 +682,23 @@ function VideoFirstSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
+              onClick={() => setActiveVideo(vid)} // Open Modal on Click
               className="relative flex-1 hover:flex-[3] transition-all duration-500 ease-in-out overflow-hidden rounded-[32px] group cursor-pointer bg-indigo-950 shadow-2xl shadow-indigo-900/10 border-2 border-transparent hover:border-yellow-400"
             >
-              {/* Background Image */}
               <img
                 src={vid.img}
                 alt={vid.title}
                 className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-90 transition-opacity duration-500"
               />
-
-              {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-indigo-950 via-indigo-950/20 to-transparent opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
 
-              {/* Center Play Button (Visible when NOT hovered) */}
               <div className="absolute inset-0 flex items-center justify-center opacity-100 lg:group-hover:opacity-0 transition-opacity duration-300">
                 <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center border border-white/40 shadow-lg">
                   <Play className="w-6 h-6 text-white ml-1 fill-white" />
                 </div>
               </div>
 
-              {/* Content Area */}
               <div className="absolute bottom-0 left-0 p-6 md:p-8 w-full flex flex-col justify-end h-full">
-
-                {/* Meta Tags (Fades in on hover) */}
                 <div className="flex items-center gap-3 mb-3 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-300 lg:delay-100">
                   <span className="px-3 py-1 bg-red-500 text-white text-xs font-bold rounded-full tracking-wider shadow-md">
                     {vid.views}
@@ -541,28 +707,65 @@ function VideoFirstSection() {
                     {vid.category}
                   </span>
                 </div>
-
-                {/* Title */}
                 <h3 className="text-white font-black text-2xl md:text-3xl mb-0 lg:mb-2 whitespace-nowrap lg:truncate lg:group-hover:whitespace-normal transition-all duration-300 drop-shadow-lg">
                   {vid.title}
                 </h3>
-
-                {/* Description & Button (Expands on hover) */}
                 <div className="overflow-hidden max-h-0 lg:group-hover:max-h-40 transition-all duration-500 ease-in-out opacity-100 lg:opacity-0 lg:group-hover:opacity-100">
                   <p className="text-white/80 text-sm md:text-base mb-6 mt-2 leading-relaxed">
                     {vid.desc}
                   </p>
-                  <button className="flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold rounded-full transition-colors w-max shadow-lg">
+                  <button className="flex items-center gap-2 px-6 py-3 bg-yellow-400 hover:bg-yellow-300 text-indigo-900 font-bold rounded-full transition-colors w-max shadow-lg pointer-events-none">
                     <Play className="w-4 h-4 fill-current" /> Watch Masterclass
                   </button>
                 </div>
-
               </div>
             </motion.div>
           ))}
         </div>
-
       </div>
+
+      {/* ========================================== */}
+      {/* VIDEO POPUP MODAL (Rendered conditionally) */}
+      {/* ========================================== */}
+      <AnimatePresence>
+        {activeVideo && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
+            onClick={() => setActiveVideo(null)} // Close when clicking backdrop
+          >
+            <motion.div
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative w-full max-w-5xl aspect-video bg-black rounded-[24px] overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.5)] border border-white/10"
+              onClick={(e) => e.stopPropagation()} // Prevent close when clicking inside video box
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setActiveVideo(null)}
+                className="absolute top-4 right-4 z-10 w-10 h-10 bg-black/50 hover:bg-red-500 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-colors border border-white/20 group"
+              >
+                <X className="w-5 h-5 group-hover:rotate-90 transition-transform duration-300" />
+              </button>
+
+              {/* Video Iframe */}
+              <iframe
+                className="w-full h-full"
+                src={`${activeVideo.videoUrl}?autoplay=1`}
+                title={activeVideo.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
